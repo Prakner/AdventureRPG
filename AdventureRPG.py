@@ -41,3 +41,16 @@ held_item_ids = {
 }
 
 currency = next(iter(inventory))
+
+handcrafting_recipes = {
+    "Glass Vial": ["crafted_glassvial", [5, "resource_glass"]],
+    "Alchemical Paste": ["crafted_alchemicalpaste", [1, "resource_clearwater"], [3, "drop_guts"], [1, "drop_slimeball"]]
+}
+
+alchemical_recipes = {
+    "Potion of Minor Health": ["potion_health_small", [1, "crafted_glassvial"], [1, "crafted_alchemicalpaste"], [5, "forage_berry_red"]],
+    "Potion of Health": ["potion_health", [1, "potion_health_small"], [3, "crafted_alchemicalpaste"], [5, "forage_berry_red"]],
+    "Potion of Minor Arcana": ["potion_mana_small", [1, "crafted_glassvial"], [1, "crafted_alchemicalpaste"], [5, "forage_berry_blue"]],
+    "Potion of Arcana": ["potion_mana", [1, "potion_mana_small"], [3, "crafted_alchemicalpaste"], [5, "forage_berry_blue"]]
+}
+
