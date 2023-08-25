@@ -7,7 +7,7 @@ TEXT_SPEED = 0.1
 # Naming scheme for inventory goes as follows:
 # ID, amount, name, sell price, buy price, shop to be bought from
 
-def animate_text(text):
+def fprint(text):
     number_of_characters=1
     while True:
         print(text[0:number_of_characters],end='\r')
@@ -45,12 +45,12 @@ inventory = {
     "crafted_alchemicalpaste": [0, "Alchemical Paste", 20, -1, -1]
 }
 
-held_item_ids = {
+held_item_ids = [
     [None, 0],
     ["held_amulet1", 1],
     ["held_amulet2", 2],
     ["held_amulet3", 3]
-}
+]
 
 def detect_held_item(value:int):
     item_found = False
@@ -91,15 +91,15 @@ def detect_rarity(rarity):
     if rarity == None or rarity == 0:
         return ""
     elif rarity == 1:
-        return " (☆)"
+        return " (☆ )"
     elif rarity == 2:
-        return " (☆☆)"
+        return " (☆ ☆ )"
     elif rarity == 3:
-        return " (☆☆☆)"
+        return " (☆ ☆ ☆ )"
     elif rarity == 4:
-        return " (☆☆☆☆)"
+        return " (☆ ☆ ☆ ☆ )"
     elif rarity == 5:
-        return " (☆☆☆☆☆)"
+        return " (☆ ☆ ☆ ☆ ☆ )"
     else:
         if DEBUG:
             print("DEBUG: Rarity invalid.")
@@ -107,7 +107,7 @@ def detect_rarity(rarity):
 
 race_list = ["human", "demonkin", "elf", "orc"]
 class Adventurer:
-    def __init__(self, race:str, name:str = None, attack:int = None, max_health:int = None, health:int = None, max_mana:int = None, mana:int = None, speed:int = None, held_item:int = None, rarity:int = None):
+    def __init__(self, race:str = None, name:str = None, attack:int = None, max_health:int = None, health:int = None, max_mana:int = None, mana:int = None, speed:int = None, held_item:int = None, rarity:int = None, main_character:bool = False):
         if name == None or name == "":
             if DEBUG:
                 print("DEBUG: No name detected. Randomizing...")
@@ -138,11 +138,11 @@ class Adventurer:
                 attack = random.randint(3,5)
         if max_health == None:
             if race == "human" or race == "demonkin":
-                max_health == random.randint(20,30)
+                max_health = random.randint(20,30)
             elif race == "elf":
-                max_health == random.randint(15,25)
+                max_health = random.randint(15,25)
             elif race == "orc":
-                max_health == random.randint(22,35)
+                max_health = random.randint(22,35)
             else:
                 if DEBUG:
                     print("DEBUG: Unknown error has occurred. Max health is 15.")
