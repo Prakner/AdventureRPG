@@ -40,6 +40,21 @@ held_item_ids = {
     ["held_amulet3", 3]
 }
 
+def detect_held_item(value:int):
+    item_found = False
+    for item in held_item_ids:
+        if value == item[1]:
+            item_found = True
+            held_item_name = item[0]
+        if item_found == True:
+            if DEBUG:
+                print(f"DEBUG: Item ID detected. Item is {held_item_name}.")
+            return True
+        else:
+            if DEBUG:
+                print(f"DEBUG: Item ID is invalid. Current id is {value}.")
+            return False
+
 currency = next(iter(inventory))
 
 handcrafting_recipes = {
@@ -60,3 +75,106 @@ def get_random_name():
     name = random.choice(name1) + random.choice(name2)
     return name
 
+def detect_rarity(rarity):
+    if rarity == None or rarity == 0:
+        return ""
+    elif rarity == 1:
+        return " (☆)"
+    elif rarity == 2:
+        return " (☆☆)"
+    elif rarity == 3:
+        return " (☆☆☆)"
+    elif rarity == 4:
+        return " (☆☆☆☆)"
+    elif rarity == 5:
+        return " (☆☆☆☆☆)"
+    else:
+        if DEBUG:
+            print("DEBUG: Rarity invalid.")
+        return " (???)"
+
+race_list = ["human", "demonkin", "elf", "orc"]
+class Adventurer:
+    def __init__(self, race:str, name:str = None, attack:int = None, max_health:int = None, health:int = None, max_mana:int = None, mana:int = None, speed:int = None, held_item:int = None, rarity:int = None):
+        if name == None or name == "":
+            if DEBUG:
+                print("DEBUG: No name detected. Randomizing...")
+            name = get_random_name()
+            if DEBUG:
+                print(f"DEBUG: Name randomized. Chosen name is {name}.")
+        if race == None:
+            if DEBUG:
+                print("DEBUG: No race detected. Randomizing...")
+            pickrace = random.randint(0,len(race_list)-1)
+            race = race_list[pickrace]
+            if DEBUG:
+                print(f"DEBUG: Race randomized. Chosen race is {race}.")
+        if attack == None:
+            if race == "human" or race == "demonkin":
+                attack = random.randint(3,5)
+            elif race == "elf":
+                attack = random.randint(2,4)
+            elif race == "orc":
+                attack = random.randint(4,6)
+            else:
+                if DEBUG:
+                    if race not in race_list:
+                        print("DEBUG: Race not in race list. Defaulting to human")
+                    else:
+                        print("DEBUG: Unknown error. Defaulting to human.")
+                race = "human"
+                attack = random.randint(3,5)
+        if max_health == None:
+            if race == "human" or race == "demonkin":
+                max_health == random.randint(20,30)
+            elif race == "elf":
+                max_health == random.randint(15,25)
+            elif race == "orc":
+                max_health == random.randint(22,35)
+            else:
+                if DEBUG:
+                    print("DEBUG: Unknown error has occurred. Max health is 15.")
+                max_health = 15
+        if health == None:
+            health = max_health
+        if max_mana == None:
+            if race == "human" or race == "orc":
+                max_mana = random.randint(0,5)
+            elif race == "demonkin" or race == "elf":
+                max_mana = random.randint(3,8)
+            else:
+                if DEBUG:
+                    print("DEBUG: Unknown error has occurred. Max mana is 0.")
+                max_mana = 0
+        if mana == None:
+            mana = max_mana
+        if speed == None:
+            if race == "orc":
+                speed = random.randint(12,25)
+            elif race == "human":
+                speed = random.randint(19,34)
+            elif race == "demonkin":
+                speed = random.randint(18,29)
+            elif race == "elf":
+                speed = random.randint(20,40)
+            else:
+                if DEBUG:
+                    print("DEBUG: Unknown error has occurred. Speed is 20.")
+                speed = 20
+        if held_item == None or detect_held_item(held_item) == False:
+            held_item = 0
+        if rarity == None:
+            rarity = 0
+        self.race = race
+        self.name = name
+        self.attack = attack
+        self.max_health = max_health
+        self.health = health
+        self.max_mana = max_mana
+        self.mana = mana
+        self.speed = speed
+        self.held_item = held_item
+        self.rarity = detect_rarity(rarity)
+    def __str__(self):
+        return f"{self.name}{self.rarity}- {self.race.upper()} ({self.health}/{self.max_health}) HP|({self.mana}/{self.max_mana}) MP|{self.attack} ATK|{self.speed} SPD"
+    
