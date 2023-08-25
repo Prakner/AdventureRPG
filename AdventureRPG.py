@@ -1,10 +1,22 @@
 import random
-
+import time
 # Global variable list
 DEBUG = False
+TEXT_SPEED = 0.1
 
 # Naming scheme for inventory goes as follows:
 # ID, amount, name, sell price, buy price, shop to be bought from
+
+def animate_text(text):
+    number_of_characters=1
+    while True:
+        print(text[0:number_of_characters],end='\r')
+        if number_of_characters > len(text):
+            print('\n')
+            break
+        else:
+            number_of_characters += 1
+        time.sleep(0.05)
 
 inventory = {
     "gold": [0, "Gold", 1, -1, -1],
@@ -177,4 +189,3 @@ class Adventurer:
         self.rarity = detect_rarity(rarity)
     def __str__(self):
         return f"{self.name}{self.rarity}- {self.race.upper()} ({self.health}/{self.max_health}) HP|({self.mana}/{self.max_mana}) MP|{self.attack} ATK|{self.speed} SPD"
-    
