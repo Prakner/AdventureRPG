@@ -4,6 +4,9 @@ import time
 DEBUG = False
 TEXT_SPEED = 0.1
 
+party = []
+adventurer_list = []
+
 # Naming scheme for inventory goes as follows:
 # ID, amount, name, sell price, buy price, shop to be bought from
 
@@ -187,8 +190,9 @@ class Adventurer:
         self.speed = speed
         self.held_item = held_item
         self.rarity = detect_rarity(rarity)
+        self.main_character = main_character
     def __str__(self):
-        return f"{self.name}{self.rarity}- {self.race.upper()} ({self.health}/{self.max_health}) HP|({self.mana}/{self.max_mana}) MP|{self.attack} ATK|{self.speed} SPD"
+        return f"{self.name}" + (f"{self.rarity}" if self.main_character == False else "(You)") + f" - {self.race.upper()} ({self.health}/{self.max_health}) HP|({self.mana}/{self.max_mana}) MP|{self.attack} ATK|{self.speed} SPD"
 
 def adven_gen(race:str = None, name:str = None, attack:int = None, max_health:int = None, max_mana:int = None, speed:int = None, held_item:int = None, rarity:int = None):
     if DEBUG:
