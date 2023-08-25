@@ -54,3 +54,9 @@ alchemical_recipes = {
     "Potion of Arcana": ["potion_mana", [1, "potion_mana_small"], [3, "crafted_alchemicalpaste"], [5, "forage_berry_blue"]]
 }
 
+def get_random_name():
+    name1 = ["Arc", "Mai", "Shen", "Meg", "Gre", "Pre", "Ur", "Ar", "Est", "Anc", "Redd", "Mu", "Br", "Pet", "Lo", "Stew", "Mar", "Dar", "Claud", "Ja", "Sky", "Jenn", "Ash", "Nata", "Dw", "Bill", "Will", "Bai", "Sebas", "Hero", "Aca", "Pik", "Lay", "Fe", "Tex", "El", "Men", "Le", "Al", "Had", "Prak", "No", "Mid", "Be", "Sanc", "Oop", "Dough", "Do", "Pep", "Shake", "Jo", "Sa", "Tr", "Hol", "Mo", "Yo", "Ba", "Har", "Valen", "Vic", "Theo", "Per", "Cy", "Anna", "Ta", "Ea", "Ca", "Ka", "Pi", "Calyp", "Cha", "Sli", "Ly", "Zip", "Po", "A", "E", "I", "O", "U", "Scr", "Fo", "Fi", "Fee", "Bar", "Wo", "Dump", "Gu", "Ran", "Dom", "Bul", "Ch", "Go", "Rai", "Cap", "Tain", "Amer", "Icar", "Grem", "Krak"]
+    name2 = ["man", "shen", "an", "ian", "ast", "shu", "ho", "gry", "it", "hovy", "atron", "er", "is", "ie", "io", "izabeth", "ette", "ron", "son", "lyn", "ley", "leigh", "ey", "lie", "ight", "iam", "tian", "brine", "cia", "min", "oli", "ton", "lix", "as", "on", "den", "tos", "bron", "bert", "die", "ner", "ah", "night", "egz", "tus", "sie", "nut", "vah", "per", "speare", "jo", "lem", "ash", "nopoly", "rty", "ney", "ry", "tina", "tine", "tor", "toria", "cy", "rus", "beth", "ble", "rl", "a", "i", "zza", "so", "se", "my", "ser", "co", "ol", "mp", "truck", "sin", "us", "ite", "lin", "in", "borb", "birb", "berb", "barb", "burb", "bon", "bie", "gy", "bread", "drop", "slurp", "goo", "bow", "kou", "ken", "hen", "zgy", "qry"]
+    name = random.choice(name1) + random.choice(name2)
+    return name
+
