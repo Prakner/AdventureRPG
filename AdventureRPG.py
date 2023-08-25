@@ -176,7 +176,7 @@ class Adventurer:
         if held_item == None or detect_held_item(held_item) == False:
             held_item = 0
         if rarity == None:
-            rarity = 0
+            rarity = random.randint(1,5)
         self.race = race
         self.name = name
         self.attack = attack
@@ -189,3 +189,18 @@ class Adventurer:
         self.rarity = detect_rarity(rarity)
     def __str__(self):
         return f"{self.name}{self.rarity}- {self.race.upper()} ({self.health}/{self.max_health}) HP|({self.mana}/{self.max_mana}) MP|{self.attack} ATK|{self.speed} SPD"
+
+def adven_gen(race:str = None, name:str = None, attack:int = None, max_health:int = None, max_mana:int = None, speed:int = None, held_item:int = None, rarity:int = None):
+    if DEBUG:
+        print("DEBUG: Creating new Adventurer.")
+    return Adventurer(race, name, attack, max_health, None, max_mana, None, speed, held_item, rarity)
+
+def adven_list_append(adventurer:Adventurer):
+    adventurer_list.append(adventurer)
+
+
+# Testing corner
+adven_list_append(adven_gen())
+
+for adven in adventurer_list:
+    fprint(str(adven))
