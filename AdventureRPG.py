@@ -202,6 +202,16 @@ def adven_gen(race:str = None, name:str = None, attack:int = None, max_health:in
 def adven_list_append(adventurer:Adventurer):
     adventurer_list.append(adventurer)
 
+# Gatcha
+gatcha_list = []
+
+def gatcha():
+    if inventory["gatcha_ticket"][0] >= 10:
+        inventory["gatcha_ticket"][0] -= 10
+        fprint("It works!")
+    else:
+        fprint(f"You need 10 {inventory['gatcha_ticket'][1]}s to gamble. You only have {inventory['gatcha_ticket'][0]}")
+
 
 # Testing corner
 adven_list_append(adven_gen())
