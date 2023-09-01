@@ -3,6 +3,7 @@ import time
 # Global variable list
 DEBUG = False
 TEXT_SPEED = 0.1
+base_exp = 500
 
 party = []
 adventurer_list = []
@@ -212,6 +213,121 @@ def gatcha():
     else:
         fprint(f"You need 10 {inventory['gatcha_ticket'][1]}s to gamble. You only have {inventory['gatcha_ticket'][0]}")
 
+# Level Up
+def next_level_exp(level):
+    return int(base_exp*(1.05**level))
+
+def levelup(adven:Adventurer):
+    if adven.exp >= next_level_exp(adven.level):
+        adven.exp -= next_level_exp(adven.level)
+        adven.level += 1
+        if adven.race in race_list:
+            if adven.race == "human":
+                fprint(f"{adven.name} leveled up to Lvl {adven.level}! The following stats have improved:")
+                # Strength increase
+                new_strength = adven.strength + random.randint(1,2)
+                print(f"Strength: {adven.strength} -> {new_strength}")
+                adven.strength = new_strength
+                # Defense increase
+                new_defense = adven.defense + random.randint(1,2)
+                print(f"Defense: {adven.defense} -> {new_defense}")
+                adven.defense = new_defense
+                # Health increase
+                new_health = random.randint(3,5)
+                print(f"Max Health: {adven.max_health} -> {adven.max_health + new_health}")
+                adven.max_health += new_health
+                adven.health += new_health
+                # Mana increase
+                new_mana = random.randint(1,3)
+                print(f"Max Mana: {adven.max_mana} -> {adven.max_mana + new_mana}")
+                adven.max_mana += new_mana
+                adven.mana += new_mana
+                # Speed increase
+                new_speed = adven.speed + random.randint(2,4)
+                print(f"Speed: {adven.speed} -> {new_speed}")
+                adven.speed = new_speed
+            elif adven.race == "demonkin":
+                fprint(f"{adven.name} leveled up to Lvl {adven.level}! The following stats have improved:")
+                # Strength increase
+                new_strength = adven.strength + random.randint(1,2)
+                print(f"Strength: {adven.strength} -> {new_strength}")
+                adven.strength = new_strength
+                # Defense increase
+                new_defense = adven.defense + random.randint(1,2)
+                print(f"Defense: {adven.defense} -> {new_defense}")
+                adven.defense = new_defense
+                # Health increase
+                new_health = random.randint(2,4)
+                print(f"Max Health: {adven.max_health} -> {adven.max_health + new_health}")
+                adven.max_health += new_health
+                adven.health += new_health
+                # Mana increase
+                new_mana = random.randint(2,4)
+                print(f"Max Mana: {adven.max_mana} -> {adven.max_mana + new_mana}")
+                adven.max_mana += new_mana
+                adven.mana += new_mana
+                # Speed increase
+                new_speed = adven.speed + random.randint(2,4)
+                print(f"Speed: {adven.speed} -> {new_speed}")
+                adven.speed = new_speed
+            elif adven.race == "elf":
+                fprint(f"{adven.name} leveled up to Lvl {adven.level}! The following stats have improved:")
+                # Strength increase
+                new_strength = adven.strength + random.randint(0,1)
+                print(f"Strength: {adven.strength} -> {new_strength}")
+                adven.strength = new_strength
+                # Defense increase
+                new_defense = adven.defense + random.randint(1,2)
+                print(f"Defense: {adven.defense} -> {new_defense}")
+                adven.defense = new_defense
+                # Health increase
+                new_health = random.randint(2,4)
+                print(f"Max Health: {adven.max_health} -> {adven.max_health + new_health}")
+                adven.max_health += new_health
+                adven.health += new_health
+                # Mana increase
+                new_mana = random.randint(3,5)
+                print(f"Max Mana: {adven.max_mana} -> {adven.max_mana + new_mana}")
+                adven.max_mana += new_mana
+                adven.mana += new_mana
+                # Speed increase
+                new_speed = adven.speed + random.randint(2,5)
+                print(f"Speed: {adven.speed} -> {new_speed}")
+                adven.speed = new_speed
+            elif adven.race == "orc":
+                fprint(f"{adven.name} leveled up to Lvl {adven.level}! The following stats have improved:")
+                # Strength increase
+                new_strength = adven.strength + random.randint(1,3)
+                print(f"Strength: {adven.strength} -> {new_strength}")
+                adven.strength = new_strength
+                # Defense increase
+                new_defense = adven.defense + random.randint(1,2)
+                print(f"Defense: {adven.defense} -> {new_defense}")
+                adven.defense = new_defense
+                # Health increase
+                new_health = random.randint(5,8)
+                print(f"Max Health: {adven.max_health} -> {adven.max_health + new_health}")
+                adven.max_health += new_health
+                adven.health += new_health
+                # Mana increase
+                new_mana = random.randint(0,2)
+                print(f"Max Mana: {adven.max_mana} -> {adven.max_mana + new_mana}")
+                adven.max_mana += new_mana
+                adven.mana += new_mana
+                # Speed increase
+                new_speed = adven.speed + random.randint(0,2)
+                print(f"Speed: {adven.speed} -> {new_speed}")
+                adven.speed = new_speed
+            print()
+        else:
+            if DEBUG:
+                print("DEBUG: Race not detected. No stats improved.")
+    else:
+        fprint("Beegor")
+
+x = adven_gen(None,None,None,None,None,None,None,None,None,None,5000000)
+for i in range(1,100):
+    levelup(x)
 
 # Testing corner
 adven_list_append(adven_gen())
