@@ -338,21 +338,45 @@ def levelup(adven:Adventurer):
         fprint("Beegor")
 
 x = adven_gen(None,None,None,None,None,None,None,None,None,None,5000000)
-for i in range(1,100):
+for i in range(1,10):
     levelup(x)
 
-def battle_dmg(attack:int, defense:int, attack_modifier:float = None, defense_modifier:float = None):
+def crit_chance(char:Adventurer, crit_increase:float = None):
+    if crit_increase == None:
+        crit_increase = 0.0
+    chance = (char.strength + char.speed)/10000 + .03 + crit_increase
+    x = random.random()
+    if DEBUG:
+        print(f"DEBUG: crit chance is {chance} and result is {x}.")
+    if x <= chance:
+        return True
+    else:
+        return False
+
+def battle_dmg(char:Adventurer, attack:int, defense:int, attack_modifier:float = None, defense_modifier:float = None, blessing:float = None):
     n = random.choice([-1,1])
     if attack_modifier == None:
         attack_modifier = 1.0
     if defense_modifier == None:
         defense_modifier = 1.0
-    return int(((attack_modifier)*(attack/2) - (defense_modifier)*(defense/4)) + n*(attack/2 - defense/4)/16)
+    if blessing == None:
+        blessing = 1.0
+    crit = crit_chance(char)
+    if crit == False:
+        damage = int(blessing*(((attack_modifier)*(attack/2) - (defense_modifier)*(defense/4)) + n*(attack/2 - defense/4)/16))
+        if damage < 1:
+            damage = 1
+        print(f"{char.name} hit the opponent for {damage} damage.")
+    else:
+        damage = int(blessing*((attack_modifier)*(attack) - (defense_modifier)*(defense/4)))
+        if damage < 1:
+            damage = 1
+        print(f"Eureka! {char.name} struck a critical hit on the opponent for {damage} damage!")
+    return damage
 
-test1 = battle_dmg(x.strength, x.defense, None, 1.5)
-test2 = battle_dmg(x.strength, x.defense, 1.5) 
-test3 = battle_dmg(x.strength, x.defense)
-
-print(f"{x.name} was dealt {test3} damage!")
-print(f"{x.name} was dealt {test1} damage!")
-print(f"{x.name} was dealt {test2} damage!")
+test3 = battle_dmg(x, x.strength, x.defense)
+test32 = battle_dmg(x, x.strength, x.defense)
+test1 = battle_dmg(x, x.strength, x.defense, None, 1.5, None)
+test12 = battle_dmg(x, x.strength, x.defense, None, 1.5)
+test2 = battle_dmg(x, x.strength, x.defense, 1.5) 
+test22 = battle_dmg(x, x.strength, x.defense, 1.5) 
