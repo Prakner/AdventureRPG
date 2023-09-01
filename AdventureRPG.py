@@ -2,14 +2,11 @@ import random
 import time
 # Global variable list
 DEBUG = False
-TEXT_SPEED = 0.1
+TEXT_SPEED = 0.001
 base_exp = 500
 
 party = []
 adventurer_list = []
-
-# Naming scheme for inventory goes as follows:
-# ID, amount, name, sell price, buy price, shop to be bought from
 
 def fprint(text):
     number_of_characters=1
@@ -20,7 +17,10 @@ def fprint(text):
             break
         else:
             number_of_characters += 1
-        time.sleep(0.05)
+        time.sleep(TEXT_SPEED)
+
+# Naming scheme for inventory goes as follows:
+# ID, amount, name, sell price, buy price, shop to be bought from
 
 inventory = {
     "gold": [0, "Gold", 1, -1, -1],
@@ -46,7 +46,8 @@ inventory = {
     "forage_berry_black": [0, "Branch of Black Berries", 2, -1, "forage"],
     "forage_berry_white": [0, "Branch of White Berries", 2, -1, "forage"],
     "crafted_glassvial": [0, "Glass Vial", 40, -1, -1],
-    "crafted_alchemicalpaste": [0, "Alchemical Paste", 20, -1, -1]
+    "crafted_alchemicalpaste": [0, "Alchemical Paste", 20, -1, -1],
+    "gatcha_ticket": [100, "Gatcha Ticket", -1, -1, -1]
 }
 
 held_item_ids = [
@@ -111,7 +112,7 @@ def detect_rarity(rarity):
 
 race_list = ["human", "demonkin", "elf", "orc"]
 class Adventurer:
-    def __init__(self, race:str = None, name:str = None, attack:int = None, max_health:int = None, health:int = None, max_mana:int = None, mana:int = None, speed:int = None, held_item:int = None, rarity:int = None, main_character:bool = False):
+    def __init__(self, race:str = None, name:str = None, strength:int = None, defense:int = None,max_health:int = None, health:int = None, max_mana:int = None, mana:int = None, speed:int = None, held_item:int = None, rarity:int = None, level:int = None, exp:int = None, main_character:bool = False):
         if name == None or name == "":
             if DEBUG:
                 print("DEBUG: No name detected. Randomizing...")
@@ -125,13 +126,13 @@ class Adventurer:
             race = race_list[pickrace]
             if DEBUG:
                 print(f"DEBUG: Race randomized. Chosen race is {race}.")
-        if attack == None:
+        if strength == None:
             if race == "human" or race == "demonkin":
-                attack = random.randint(3,5)
+                strength = random.randint(3,5)
             elif race == "elf":
-                attack = random.randint(2,4)
+                strength = random.randint(2,4)
             elif race == "orc":
-                attack = random.randint(4,6)
+                strength = random.randint(4,6)
             else:
                 if DEBUG:
                     if race not in race_list:
@@ -139,7 +140,9 @@ class Adventurer:
                     else:
                         print("DEBUG: Unknown error. Defaulting to human.")
                 race = "human"
-                attack = random.randint(3,5)
+                strength = random.randint(3,5)
+        if defense == None:
+            defense = random.randint(10,15)
         if max_health == None:
             if race == "human" or race == "demonkin":
                 max_health = random.randint(20,30)
@@ -151,8 +154,6 @@ class Adventurer:
                 if DEBUG:
                     print("DEBUG: Unknown error has occurred. Max health is 15.")
                 max_health = 15
-        if health == None:
-            health = max_health
         if max_mana == None:
             if race == "human" or race == "orc":
                 max_mana = random.randint(0,5)
@@ -162,8 +163,6 @@ class Adventurer:
                 if DEBUG:
                     print("DEBUG: Unknown error has occurred. Max mana is 0.")
                 max_mana = 0
-        if mana == None:
-            mana = max_mana
         if speed == None:
             if race == "orc":
                 speed = random.randint(12,25)
@@ -180,10 +179,21 @@ class Adventurer:
         if held_item == None or detect_held_item(held_item) == False:
             held_item = 0
         if rarity == None:
-            rarity = random.randint(1,5)
+            rarity = random.randint(0,5)
+        if health == None:
+            health = max_health
+        if mana == None:
+            mana = max_mana
+        if level == None:
+            level = 1
+        elif level < 100:
+            level = 100
+        if exp == None:
+            exp = 0
         self.race = race
         self.name = name
-        self.attack = attack
+        self.strength = strength
+        self.defense = defense
         self.max_health = max_health
         self.health = health
         self.max_mana = max_mana
@@ -191,14 +201,16 @@ class Adventurer:
         self.speed = speed
         self.held_item = held_item
         self.rarity = detect_rarity(rarity)
+        self.level = level
+        self.exp = exp
         self.main_character = main_character
     def __str__(self):
-        return f"{self.name}" + (f"{self.rarity}" if self.main_character == False else "(You)") + f" - {self.race.upper()} ({self.health}/{self.max_health}) HP|({self.mana}/{self.max_mana}) MP|{self.attack} ATK|{self.speed} SPD"
+        return f"{self.name}" + (f"{self.rarity}" if self.main_character == False else "(You)") + f" - Lvl{self.level} {self.race.capitalize()} ({self.health}/{self.max_health}) HP|({self.mana}/{self.max_mana}) MP|{self.strength} ATK|{self.speed} SPD"
 
-def adven_gen(race:str = None, name:str = None, attack:int = None, max_health:int = None, max_mana:int = None, speed:int = None, held_item:int = None, rarity:int = None):
+def adven_gen(race:str = None, name:str = None, strength:int = None, defense:int = None, max_health:int = None, max_mana:int = None, speed:int = None, held_item:int = None, rarity:int = None, level:int = None, exp = None):
     if DEBUG:
         print("DEBUG: Creating new Adventurer.")
-    return Adventurer(race, name, attack, max_health, None, max_mana, None, speed, held_item, rarity)
+    return Adventurer(race, name, strength, defense, max_health, None, max_mana, None, speed, held_item, rarity, level, exp)
 
 def adven_list_append(adventurer:Adventurer):
     adventurer_list.append(adventurer)
@@ -341,5 +353,6 @@ test1 = battle_dmg(x.strength, x.defense, None, 1.5)
 test2 = battle_dmg(x.strength, x.defense, 1.5) 
 test3 = battle_dmg(x.strength, x.defense)
 
-for adven in adventurer_list:
-    fprint(str(adven))
+print(f"{x.name} was dealt {test3} damage!")
+print(f"{x.name} was dealt {test1} damage!")
+print(f"{x.name} was dealt {test2} damage!")
