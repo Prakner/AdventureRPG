@@ -123,6 +123,7 @@ class Equipment:
         return self.name
 
 equip_list = {
+    "no_equip": [0, Equipment("nothing", -1, -1, "nothing", 0, 0, 0, 0, 0, 0.0, 0.0, 0.0)],
     "wooden_shield": [0, Equipment("Wooden Shield", 5, 10, "shield", 0, 0, 5, 0, 0, 0.0, 0.0, .005)],
     "copper_shield": [0, Equipment("Copper Shield", 10, 20, "shield", 0, 0, 7, 0, 0, 0.0, 0.0, .01)],
     "bronze_shield": [0, Equipment("Bronze Shield", 15, 30, "shield", 0, 0, 10, 0, 0, 0.0, 0.0, .01)],
@@ -138,7 +139,8 @@ equip_list = {
 
 race_list = ["human", "demonkin", "elf", "orc"]
 class Adventurer:
-    def __init__(self, race:str = None, name:str = None, strength:int = None, defense:int = None,max_health:int = None, health:int = None, max_mana:int = None, mana:int = None, speed:int = None, held_item:int = None, level:int = None, exp:int = None, main_character:bool = False):
+    def __init__(self, race:str = None, name:str = None, strength:int = None, defense:int = None,max_health:int = None, health:int = None, max_mana:int = None, mana:int = None, speed:int = None, held_item:Equipment = None, armor_head:Equipment = None, armor_torso:Equipment = None, armor_arms:Equipment = None, armor_legs:Equipment = None, armor_feet:Equipment = None, weapon:Equipment = None, shield:Equipment = None, level:int = None, exp:int = None, main_character:bool = False):
+        # Name and race
         if name == None or name == "":
             if DEBUG:
                 print("DEBUG: No name detected. Randomizing...")
@@ -152,6 +154,7 @@ class Adventurer:
             race = race_list[pickrace]
             if DEBUG:
                 print(f"DEBUG: Race randomized. Chosen race is {race}.")
+        # Stats
         if strength == None:
             if race == "human" or race == "demonkin":
                 strength = random.randint(3,5)
@@ -206,12 +209,31 @@ class Adventurer:
             health = max_health
         if mana == None:
             mana = max_mana
+        # Armor/Held Items
+        if held_item == None:
+            held_item = equip_list["no_equip"][1]
+        if armor_arms == None:
+            armor_arms = equip_list["no_equip"][1]
+        if armor_feet == None:
+            armor_feet = equip_list["no_equip"][1]
+        if armor_head == None:
+            armor_head = equip_list["no_equip"][1]
+        if armor_legs == None:
+            armor_legs = equip_list["no_equip"][1]
+        if armor_torso == None:
+            armor_torso = equip_list["no_equip"][1]
+        if weapon == None:
+            weapon = equip_list["no_equip"][1]
+        if shield == None:
+            shield = equip_list["no_equip"][1]
+        # Leveling
         if level == None:
             level = 1
         elif level < 100:
             level = 100
         if exp == None:
             exp = 0
+        # Self dots
         self.race = race
         self.name = name
         self.strength = strength
@@ -222,6 +244,13 @@ class Adventurer:
         self.mana = mana
         self.speed = speed
         self.held_item = held_item
+        self.armor_arms = armor_arms
+        self.armor_feet = armor_feet
+        self.armor_head = armor_head
+        self.armor_legs = armor_legs
+        self.armor_torso = armor_torso
+        self.weapon = weapon
+        self.shield = shield
         self.level = level
         self.exp = exp
         self.main_character = main_character
