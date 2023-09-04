@@ -124,6 +124,40 @@ def detect_rarity(rarity):
             print("DEBUG: Rarity invalid.")
         return " (???)"
 
+# Naming scheme for equipment is as follows:
+# ID: amount, name, sell price, buy price, tool type, rarity, attack boost, defense boost, mana boost, speed boost, crit boost, evasion chance, block chance
+
+class Equipment:
+    def __init__(self, name:str, buyprice:int, sellprice:int, tooltype:str, rarity:int, atk_boost:int, def_boost:int, mana_boost:int, spd_boost:int, crit_boost:float, evasion_chance:float, block_chance:float):
+        self.name = name + detect_rarity(rarity)
+        self.buyprice = buyprice
+        self.sellprice = sellprice
+        self.tooltype = tooltype
+        self.rarity = rarity
+        self.atk_boost = atk_boost
+        self.def_boost = def_boost
+        self.mana_boost = mana_boost
+        self.spd_boost = spd_boost
+        self.crit_boost = crit_boost
+        self.evasion_chance = evasion_chance
+        self.block_chance = block_chance
+    def __str__(self):
+        return self.name
+
+equip_list = {
+    "wooden_shield": [0, Equipment("Wooden Shield", 5, 10, "shield", 0, 0, 5, 0, 0, 0.0, 0.0, .005)],
+    "copper_shield": [0, Equipment("Copper Shield", 10, 20, "shield", 0, 0, 7, 0, 0, 0.0, 0.0, .01)],
+    "bronze_shield": [0, Equipment("Bronze Shield", 15, 30, "shield", 0, 0, 10, 0, 0, 0.0, 0.0, .01)],
+    "iron_shield": [0, Equipment("Iron Shield", 30, 60, "shield", 1, 0, 13, 0, 0, 0.0, 0.0, .015)],
+    "steel_shield": [0, Equipment("Steel Shield", 50, 100, "shield", 1, 0, 15, 0, 0, 0.0, 0.0, .015)],
+    "manasteel_shield": [0, Equipment("Manasteel Shield", 5, 10, "shield", 2, 0, 5, 0, 0, 0.0, 0.0, .02)],
+    "bone_shield": [0, Equipment("Bone Shield", 10, 20, "shield", 2, 0, 7, 0, 0, 0.0, 0.0, .025)],
+    "necrotic_shield": [0, Equipment("Necrotic Shield", 15, 30, "shield", 3, 0, 10, 0, 0, 0.0, 0.0, .03)],
+    "blessed_shield": [0, Equipment("Blessed Shield", 30, 60, "shield", 3, 0, 13, 0, 0, 0.0, 0.0, .04)],
+    "gold_shield": [0, Equipment("Golden Shield", 50, 100, "shield", 4, 0, 15, 0, 0, 0.0, 0.0, .05)],
+    "godly_shield": [0, Equipment("Godly Shield", 50, 100, "shield", 5, 0, 15, 0, 0, 0.0, 0.0, .075)],
+}
+
 race_list = ["human", "demonkin", "elf", "orc"]
 class Adventurer:
     def __init__(self, race:str = None, name:str = None, strength:int = None, defense:int = None,max_health:int = None, health:int = None, max_mana:int = None, mana:int = None, speed:int = None, held_item:int = None, level:int = None, exp:int = None, main_character:bool = False):
