@@ -64,28 +64,6 @@ inventory = {
     "gatcha_ticket": [100, "Gatcha Ticket", -1, -1, -1]
 }
 
-held_item_ids = [
-    [None, 0],
-    ["held_amulet1", 1],
-    ["held_amulet2", 2],
-    ["held_amulet3", 3]
-]
-
-def detect_held_item(value:int):
-    item_found = False
-    for item in held_item_ids:
-        if value == item[1]:
-            item_found = True
-            held_item_name = item[0]
-        if item_found == True:
-            if DEBUG:
-                print(f"DEBUG: Item ID detected. Item is {held_item_name}.")
-            return True
-        else:
-            if DEBUG:
-                print(f"DEBUG: Item ID is invalid. Current id is {value}.")
-            return False
-
 currency = next(iter(inventory))
 
 handcrafting_recipes = {
@@ -224,8 +202,6 @@ class Adventurer:
                 if DEBUG:
                     print("DEBUG: Unknown error has occurred. Speed is 20.")
                 speed = 20
-        if held_item == None or detect_held_item(held_item) == False:
-            held_item = 0
         if health == None:
             health = max_health
         if mana == None:
