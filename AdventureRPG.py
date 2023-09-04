@@ -94,17 +94,17 @@ def get_random_name():
 
 def detect_rarity(rarity):
     if rarity == None or rarity == 0:
-        return ""
+        return " (0 ✭ )"
     elif rarity == 1:
-        return " (☆ )"
+        return " (1 ✭ )"
     elif rarity == 2:
-        return " (☆ ☆ )"
+        return " (2 ✭ )"
     elif rarity == 3:
-        return " (☆ ☆ ☆ )"
+        return " (3 ✭ )"
     elif rarity == 4:
-        return " (☆ ☆ ☆ ☆ )"
+        return " (4 ✭ )"
     elif rarity == 5:
-        return " (☆ ☆ ☆ ☆ ☆ )"
+        return " (5 ✭ )"
     else:
         if DEBUG:
             print("DEBUG: Rarity invalid.")
@@ -112,7 +112,7 @@ def detect_rarity(rarity):
 
 race_list = ["human", "demonkin", "elf", "orc"]
 class Adventurer:
-    def __init__(self, race:str = None, name:str = None, strength:int = None, defense:int = None,max_health:int = None, health:int = None, max_mana:int = None, mana:int = None, speed:int = None, held_item:int = None, rarity:int = None, level:int = None, exp:int = None, main_character:bool = False):
+    def __init__(self, race:str = None, name:str = None, strength:int = None, defense:int = None,max_health:int = None, health:int = None, max_mana:int = None, mana:int = None, speed:int = None, held_item:int = None, level:int = None, exp:int = None, main_character:bool = False):
         if name == None or name == "":
             if DEBUG:
                 print("DEBUG: No name detected. Randomizing...")
@@ -178,8 +178,6 @@ class Adventurer:
                 speed = 20
         if held_item == None or detect_held_item(held_item) == False:
             held_item = 0
-        if rarity == None:
-            rarity = random.randint(0,5)
         if health == None:
             health = max_health
         if mana == None:
@@ -200,17 +198,16 @@ class Adventurer:
         self.mana = mana
         self.speed = speed
         self.held_item = held_item
-        self.rarity = detect_rarity(rarity)
         self.level = level
         self.exp = exp
         self.main_character = main_character
     def __str__(self):
-        return f"{self.name}" + (f"{self.rarity}" if self.main_character == False else "(You)") + f" - Lvl{self.level} {self.race.capitalize()} ({self.health}/{self.max_health}) HP|({self.mana}/{self.max_mana}) MP|{self.strength} ATK|{self.speed} SPD"
+        return f"{self.name}" + (f"" if self.main_character == False else "(You)") + f" - Lvl{self.level} {self.race.capitalize()} ({self.health}/{self.max_health}) HP|({self.mana}/{self.max_mana}) MP|{self.strength} ATK|{self.speed} SPD"
 
-def adven_gen(race:str = None, name:str = None, strength:int = None, defense:int = None, max_health:int = None, max_mana:int = None, speed:int = None, held_item:int = None, rarity:int = None, level:int = None, exp = None):
+def adven_gen(race:str = None, name:str = None, strength:int = None, defense:int = None, max_health:int = None, max_mana:int = None, speed:int = None, held_item:int = None, level:int = None, exp = None):
     if DEBUG:
         print("DEBUG: Creating new Adventurer.")
-    return Adventurer(race, name, strength, defense, max_health, None, max_mana, None, speed, held_item, rarity, level, exp)
+    return Adventurer(race, name, strength, defense, max_health, None, max_mana, None, speed, held_item, level, exp)
 
 def adven_list_append(adventurer:Adventurer):
     adventurer_list.append(adventurer)
@@ -337,7 +334,7 @@ def levelup(adven:Adventurer):
     else:
         fprint("Beegor")
 
-x = adven_gen(None,None,None,None,None,None,None,None,None,None,5000000)
+x = adven_gen(None,None,None,None,None,None,None,None,None,5000000)
 for i in range(1,10):
     levelup(x)
 
