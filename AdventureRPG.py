@@ -419,9 +419,3 @@ def battle_dmg(char:Adventurer, attack:int, defense:int, attack_modifier:float =
         print(f"Eureka! {char.name} struck a critical hit on the opponent for {damage} damage!")
     return damage
 
-test3 = battle_dmg(x, x.strength, x.defense)
-test32 = battle_dmg(x, x.strength, x.defense)
-test1 = battle_dmg(x, x.strength, x.defense, None, 1.5, None)
-test12 = battle_dmg(x, x.strength, x.defense, None, 1.5)
-test2 = battle_dmg(x, x.strength, x.defense, 1.5) 
-test22 = battle_dmg(x, x.strength, x.defense, 1.5) 
