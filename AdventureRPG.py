@@ -419,3 +419,11 @@ def battle_dmg(char:Adventurer, attack:int, defense:int, attack_modifier:float =
         print(f"Eureka! {char.name} struck a critical hit on the opponent for {damage} damage!")
     return damage
 
+def equip_inv():
+    empty_inv = True
+    for item in equip_list:
+        if equip_list[item][0] != 0:
+            empty_inv = False
+            print(equip_list[item][1])
+    if empty_inv == True:
+        print("You don't have any equipment.")
