@@ -443,3 +443,43 @@ def equip_inv():
             print(f"\t{equip_list[item][0]}x", equip_list[item][1])
     if empty_inv == True:
         print("\tYou don't have any equipment.")
+
+running = True
+while running:
+    print("""___  ________ _   _ _   _ 
+|  \/  |  ___| \ | | | | |
+| .  . | |__ |  \| | | | |
+| |\/| |  __|| . ` | | | |
+| |  | | |___| |\  | |_| |
+\_|  |_|____/\_| \_/\___/ \n""")
+    
+    print("Combat commands:     There are currently no Combat commands")
+    print("Inventory commands:  inventory")
+    print("Misc. commands:      settings, exit")
+    if DEBUG:
+        print("Debug commands:      There are currently no Debug commands ")
+    try:
+        found_command = False
+        command = input("Command: ").strip().lower()
+        print()
+        for word in command.split():
+            if "inventory" in word:
+                found_command = True
+                view_inv()
+                equip_inv()
+                break
+            elif "settings" in word:
+                found_command = True
+                print("Put settings command here.")
+                break
+            elif "exit" in word:
+                found_command = True
+                print("Are you sure? Any unsaved progress will be lost.")
+                cmd2 = input("Type 'exit' again to confirm: ").strip()
+                if "exit" in cmd2:
+                    running = False
+                break
+        if not found_command:
+            print("Invalid command.")
+    except KeyboardInterrupt:
+        running = False
